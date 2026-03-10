@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Ujung Pangkal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --bg-color: #f8f9fa; 
+            --google-blue: #4285F4;
+            --google-red: #EA4335;
+            --google-yellow: #FBBC05;
+            --google-green: #34A853;
+            --text-dark: #202124;
+            --text-muted: #5f6368;
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(rgba(0, 0, 0, 0.05) 2px, transparent 2px);
+            background-size: 30px 30px;
+            color: var(--text-dark); 
+            transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .card { 
+            max-width: 480px; width: 90%; 
+            background: rgba(255, 255, 255, 0.85); 
+            padding: 40px 30px; border-radius: 32px; 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 
+                        0 1px 3px rgba(0,0,0,0.05),
+                        inset 0 2px 0 rgba(255,255,255,0.8);
+            text-align: center;
+        }
+
+        h1 { font-weight: 900; letter-spacing: 2px; margin-top: 0; font-size: 2.3em; margin-bottom: 20px;}
+        h1 span { display: inline-block; animation: wave 1.5s ease-in-out infinite; }
+        
+        h1 span:nth-child(1) { color: var(--google-blue); animation-delay: 0.0s; }
+        h1 span:nth-child(2) { color: var(--google-red); animation-delay: 0.1s; }
+        h1 span:nth-child(3) { color: var(--google-yellow); animation-delay: 0.2s; }
+        h1 span:nth-child(4) { color: var(--google-blue); animation-delay: 0.3s; }
+        h1 span:nth-child(5) { color: var(--google-green); animation-delay: 0.4s; }
+        
+        .title-space { width: 15px; display: inline-block; }
+
+        h1 span:nth-child(7) { color: var(--google-red); animation-delay: 0.5s; }
+        h1 span:nth-child(8) { color: var(--google-yellow); animation-delay: 0.6s; }
+        h1 span:nth-child(9) { color: var(--google-blue); animation-delay: 0.7s; }
+        h1 span:nth-child(10) { color: var(--google-green); animation-delay: 0.8s; }
+        h1 span:nth-child(11) { color: var(--google-red); animation-delay: 0.9s; }
+        h1 span:nth-child(12) { color: var(--google-yellow); animation-delay: 1.0s; }
+        h1 span:nth-child(13) { color: var(--google-blue); animation-delay: 1.1s; }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            20% { transform: translateY(-8px); }
+        }
+
+        p { color: var(--text-muted); font-weight: 800; margin-bottom: 12px; font-size: 0.85em; letter-spacing: 1.5px; }
+
+        input { 
+            padding: 16px 20px; border-radius: 16px; 
+            border: 2px solid rgba(0, 0, 0, 0.08); 
+            background: rgba(255, 255, 255, 0.95); color: var(--text-dark); 
+            width: 80%; font-size: 1.3em; font-family: 'Poppins', sans-serif; font-weight: 600;
+            outline: none; text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+            margin-bottom: 5px;
+        }
+        input:focus { 
+            border-color: var(--google-blue); 
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(66, 133, 244, 0.15), inset 0 2px 4px rgba(0,0,0,0.02); 
+            transform: translateY(-2px);
+        }
+        input::placeholder { color: #9aa0a6; font-weight: 400; }
+
+        .btn { 
+            padding: 12px 24px; border: none; border-radius: 14px; 
+            font-weight: 800; cursor: pointer; margin: 4px; font-size: 0.95em;
+            font-family: 'Poppins', sans-serif;
+            background: #f1f3f4; color: var(--text-dark);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn:hover { 
+            transform: translateY(-2px); 
+            background: #e8eaed;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08); 
+        }
+        .btn:active { transform: translateY(1px); box-shadow: none; }
+
+        .mode-btn { width: 42%; }
+        .mode-btn.active { background: var(--google-blue); color: white; box-shadow: 0 8px 20px rgba(66, 133, 244, 0.3); }
+
+        .num-btn.active { background: var(--google-yellow); color: var(--text-dark); box-shadow: 0 8px 20px rgba(251, 188, 5, 0.3); }
+
+        .info-btn { background: transparent; border: 2px dashed #dadce0; color: var(--text-muted); width: 90%; margin-top: 25px; }
+        .info-btn:hover { border-color: var(--google-blue); color: var(--google-blue); background: rgba(66, 133, 244, 0.05); }
+
+        .start-btn { 
+            background: var(--google-green); color: white; font-size: 1.2em; padding: 16px;
+            width: 90%; margin-top: 20px; letter-spacing: 2px;
+            box-shadow: 0 8px 20px rgba(52, 168, 83, 0.25);
+        }
+        .start-btn:hover:not(:disabled) { box-shadow: 0 12px 25px rgba(52, 168, 83, 0.4); background: #2d9648; }
+        .start-btn:disabled { background: #dadce0; color: #80868b; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        #infoBox {
+            display: none; text-align: left; font-size: 0.85em; margin-top: 15px; 
+            padding: 20px; background: rgba(248, 249, 250, 0.9); border-radius: 16px; 
+            color: var(--text-dark); line-height: 1.7; border: 1px solid #e8eaed;
+        }
+
+        /* Gameplay Elements */
+        .header-game { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+        .player-tag { font-size: 0.85em; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; background: #f1f3f4; padding: 4px 12px; border-radius: 20px; }
+        .round-tag { font-size: 0.85em; color: white; background: var(--google-red); font-weight: 800; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;}
+        
+        .current-player-name { font-size: 2.8em; font-weight: 900; margin-bottom: 5px; display: block; color: var(--text-dark); letter-spacing: -1px; }
+        
+        .display-box { 
+            font-size: 4em; font-weight: 900; margin: 0 0 15px 0; letter-spacing: 4px; 
+            color: var(--google-blue); text-transform: uppercase; line-height: 1;
+        }
+
+        .timer { font-size: 4.5em; font-weight: 900; margin: 0; color: var(--text-dark); transition: all 0.3s; line-height: 1; letter-spacing: -2px; }
+        .timer.danger { color: var(--google-red); animation: heartbeat 0.8s infinite; text-shadow: 0 0 30px rgba(234, 67, 53, 0.4); }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.15); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        #feedback { height: 20px; font-weight: 800; letter-spacing: 1px; margin-top: 5px; margin-bottom: 5px; font-size: 1em; transition: all 0.2s; }
+        #suddenDeathAlert { color: var(--google-red); font-weight: 800; font-size: 0.9em; height: 15px; margin-top: 0; margin-bottom: 5px; animation: blink 1s infinite;}
+
+        /* Kotak Sejarah Kata (Log Kata) */
+        .history-box {
+            background: rgba(241, 243, 244, 0.6);
+            border: 1px dashed #dadce0;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 5px;
+            text-align: left;
+            font-size: 0.85em;
+            color: var(--text-muted);
+            max-height: 80px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .history-word {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            border: 1px solid #e8eaed;
+            font-weight: 600;
+            color: var(--google-blue);
+        }
+        
+        .history-box::-webkit-scrollbar { width: 4px; }
+        .history-box::-webkit-scrollbar-track { background: transparent; }
+        .history-box::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 4px; }
+
+        .elimination-title { font-size: 3.5em; color: var(--google-red); margin-bottom: 5px; letter-spacing: 5px; text-shadow: 0 0 40px rgba(234, 67, 53, 0.6); }
+        .elimination-name { font-size: 3em; font-weight: 900; color: white; letter-spacing: 2px; text-transform: uppercase; }
+        .elimination-sub { margin-top: 25px; color: #9aa0a6; font-size: 1.1em; font-weight: 600; letter-spacing: 2px; animation: blink 1.5s infinite; }
+        
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="setup">
+        <h1>
+            <span>U</span><span>J</span><span>U</span><span>N</span><span>G</span>
+            <span class="title-space"></span>
+            <span>P</span><span>A</span><span>N</span><span>G</span><span>K</span><span>A</span><span>L</span>
+        </h1>
+        
+        <p style="margin-top: 20px;">MODE PERMAINAN</p>
+        <button class="btn mode-btn active" id="btnAwalan" onclick="setMode('AWALAN')">AWALAN</button>
+        <button class="btn mode-btn" id="btnAkhiran" onclick="setMode('AKHIRAN')">AKHIRAN</button>
+        
+        <p style="margin-top: 25px;">JUMLAH PEMAIN</p>
+        <button class="btn num-btn" id="btnNum2" onclick="prepareNames(2)">2 ORG</button>
+        <button class="btn num-btn" id="btnNum3" onclick="prepareNames(3)">3 ORG</button>
+        <button class="btn num-btn" id="btnNum4" onclick="prepareNames(4)">4 ORG</button>
+
+        <button class="btn info-btn" onclick="toggleInfo()">BAGAIMANA CARA MAINNYA?</button>
+        <div id="infoBox">
+            <ul style="padding-left: 20px; margin: 0;">
+                <li style="margin-bottom: 5px;">Pilih mode: Buat kata dari <b>Awalan</b> atau <b>Akhiran</b>.</li>
+                <li style="margin-bottom: 5px;">Setiap pemain punya <b>10 detik</b>. Hati-hati, waktu akan menyusut setiap 3 ronde!</li>
+                <li style="margin-bottom: 5px;">Kata harus baku (KBBI) & belum pernah dipakai.</li>
+                <li style="margin-bottom: 5px;">Gagal menjawab = <b style="color:var(--google-red)">ELIMINASI!</b></li>
+            </ul>
+        </div>
+
+        <div id="nameFields" style="display:none; margin-top: 30px;">
+            <div id="inputContainer"></div>
+            <button class="btn start-btn" id="mainStartBtn" onclick="startGame()" disabled>MEMUAT KAMUS...</button>
+        </div>
+    </div>
+
+    <div id="gameplay" style="display:none;">
+        <div class="header-game">
+            <div class="player-tag">GILIRAN SAAT INI</div>
+            <div class="round-tag" id="roundDisplay">RONDE 1</div>
+        </div>
+        
+        <span class="current-player-name" id="nameDisplay">---</span>
+        
+        <div class="timer" id="timerDisplay">10</div>
+        <p id="suddenDeathAlert"></p> 
+        
+        <p id="modeText" style="margin-top:5px;">Awalan kata:</p>
+        <div class="display-box" id="targetDisplay">---</div>
+        
+        <input type="text" id="answerInput" placeholder="Ketik kata disini..." autocomplete="off" onkeypress="handleInput(event)">
+        <p id="feedback"></p>
+        
+        <div style="font-size: 0.8em; color: var(--text-muted); font-weight:bold; text-align:left; padding-left:5px;">KATA TERPAKAI (Ronde Ini):</div>
+        <div class="history-box" id="wordHistoryBox">
+            <span style="color:#bdc1c6; font-style:italic;">Belum ada kata...</span>
+        </div>
+    </div>
+
+    <div id="eliminationScreen" style="display:none;">
+        <h1 class="elimination-title">ELIMINASI</h1>
+        <div class="elimination-name" id="eliminatedPlayerName">---</div>
+        <div class="elimination-sub">MEMUAT TANTANGAN BARU...</div>
+    </div>
+</div>
+
+<script>
+    let gameMode = 'AWALAN';
+    let players = [];
+    let activePlayers = [];
+    let currentIndex = 0;
+    
+    // Fitur Sudden Death & Turn Tracking
+    let timer;
+    let baseTime = 10; 
+    let timeLeft = 10;
+    let turnCount = 0; 
+    let currentRound = 1; 
+
+    let currentTarget = "";
+    let usedWords = new Set();
+    let kamusResmi = new Set(); 
+
+    const colors = ["#4285F4", "#EA4335", "#FBBC05", "#34A853"]; 
+    
+    const listPrefix = ["PER", "ME", "BER", "TER", "DI", "SE", "KE", "PE", "PEN", "PEM", "MENG"];
+    const listSuffix = ["KAN", "AN", "I", "NYA", "WAN", "WATI", "ASI", "IS", "KAH", "LAH"];
+
+    async function loadKamus() {
+        const btnStart = document.getElementById('mainStartBtn');
+        try {
+            const linkRaw = 'https://raw.githubusercontent.com/damzaky/kumpulan-kata-bahasa-indonesia-KBBI/refs/heads/master/list_1.0.0.txt';
+            const response = await fetch(linkRaw);
+            const text = await response.text();
+            
+            text.split('\n').forEach(w => {
+                if(w.trim()) kamusResmi.add(w.toLowerCase().trim());
+            });
+            
+            btnStart.innerText = "MULAI";
+            btnStart.disabled = false;
+        } catch (e) {
+            btnStart.innerText = "MAIN TANPA KAMUS (ERROR)";
+            btnStart.disabled = false;
+        }
+    }
+
+    loadKamus();
+
+    function toggleInfo() {
+        const info = document.getElementById('infoBox');
+        info.style.display = (info.style.display === 'none' || info.style.display === '') ? 'block' : 'none';
+    }
+
+    function setMode(mode) {
+        gameMode = mode;
+        if(mode === 'AWALAN') {
+            document.getElementById('btnAwalan').classList.add('active');
+            document.getElementById('btnAkhiran').classList.remove('active');
+            document.getElementById('modeText').innerText = "Kata dengan awalan:";
+        } else {
+            document.getElementById('btnAkhiran').classList.add('active');
+            document.getElementById('btnAwalan').classList.remove('active');
+            document.getElementById('modeText').innerText = "Kata dengan akhiran:";
+        }
+    }
+
+    function prepareNames(num) {
+        document.querySelectorAll('.num-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btnNum' + num).classList.add('active');
+
+        const container = document.getElementById('inputContainer');
+        container.innerHTML = "";
+        for(let i=1; i<=num; i++) {
+            container.innerHTML += `<input type="text" id="name${i}" placeholder="Nama Pemain ${i}" style="margin:6px 0;"><br>`;
+        }
+        document.getElementById('nameFields').style.display = 'block';
+        document.getElementById('nameFields').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function startGame() {
+        const inputs = document.querySelectorAll('#inputContainer input');
+        players = [];
+        inputs.forEach((inp, idx) => {
+            if(inp.value.trim()) {
+                players.push({ name: inp.value.trim().toUpperCase(), color: colors[idx % colors.length], alive: true });
+            }
+        });
+
+        if(players.length < 2) return alert("Hey! Isi minimal 2 pemain dulu ya.");
+        activePlayers = [...players];
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('gameplay').style.display = 'block';
+        
+        baseTime = 10;
+        turnCount = 0;
+        currentRound = 1;
+        
+        newChallenge();
+    }
+
+    function newChallenge() {
+        const list = gameMode === 'AWALAN' ? listPrefix : listSuffix;
+        currentTarget = list[Math.floor(Math.random() * list.length)].toLowerCase();
+        
+        const targetUI = document.getElementById('targetDisplay');
+        targetUI.innerText = gameMode === 'AWALAN' ? currentTarget.toUpperCase() + "-" : "-" + currentTarget.toUpperCase();
+        
+        targetUI.style.transform = "scale(0.8)";
+        targetUI.style.opacity = "0";
+        setTimeout(() => {
+            targetUI.style.transform = "scale(1)";
+            targetUI.style.opacity = "1";
+            targetUI.style.transition = "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+        }, 50);
+
+        usedWords.clear();
+        updateHistoryBox(); 
+        startTurn();
+    }
+
+    function startTurn() {
+        clearInterval(timer);
+        
+        currentRound = Math.floor(turnCount / activePlayers.length) + 1;
+        document.getElementById('roundDisplay').innerText = `RONDE ${currentRound}`;
+        
+        // DI SINI PERUBAHANNYA: Dibagi 3, bukan 5
+        let timePenalty = Math.floor((currentRound - 1) / 3);
+        let calculatedTime = 10 - timePenalty;
+        baseTime = calculatedTime < 3 ? 3 : calculatedTime;
+        
+        timeLeft = baseTime;
+        
+        const sdAlert = document.getElementById('suddenDeathAlert');
+        if(timePenalty > 0) {
+            sdAlert.innerText = `🔥 Waktu berkurang! Durasi waktu: ${baseTime} detik`;
+        } else {
+            sdAlert.innerText = "";
+        }
+
+        const p = activePlayers[currentIndex];
+        
+        document.documentElement.style.setProperty('--bg-color', p.color);
+        document.getElementById('targetDisplay').style.color = p.color;
+        document.getElementById('nameDisplay').innerText = p.name;
+        
+        const timerUI = document.getElementById('timerDisplay');
+        timerUI.innerText = timeLeft;
+        timerUI.classList.remove('danger');
+        
+        document.getElementById('answerInput').value = "";
+        document.getElementById('answerInput').focus();
+
+        timer = setInterval(() => {
+            timeLeft--;
+            timerUI.innerText = timeLeft;
+            
+            if(timeLeft <= 3) timerUI.classList.add('danger');
+            if(timeLeft <= 0) eliminate();
+        }, 1000);
+    }
+
+    function handleInput(e) {
+        if(e.key === 'Enter') {
+            let val = e.target.value.trim().toLowerCase();
+            if(!val) return;
+
+            let isFormatCorrect = gameMode === 'AWALAN' ? val.startsWith(currentTarget) : val.endsWith(currentTarget);
+            let inKamus = kamusResmi.size > 0 ? kamusResmi.has(val) : true;
+
+            if(isFormatCorrect && inKamus && val.length > currentTarget.length && !usedWords.has(val)) {
+                usedWords.add(val);
+                updateHistoryBox(); 
+                
+                turnCount++; 
+                currentIndex = (currentIndex + 1) % activePlayers.length;
+                startTurn();
+            } else {
+                let msg = "DITOLAK!";
+                if(!isFormatCorrect) msg = "SALAH FORMAT!";
+                else if(!inKamus) msg = "TIDAK ADA DI KBBI!";
+                else if(usedWords.has(val)) msg = "KATA SUDAH DIPAKAI!";
+                showFeedback(msg);
+                
+                const inputEl = document.getElementById('answerInput');
+                inputEl.value = ""; 
+
+                inputEl.style.transform = "translateX(-12px)";
+                setTimeout(() => inputEl.style.transform = "translateX(12px)", 50);
+                setTimeout(() => inputEl.style.transform = "translateX(-6px)", 100);
+                setTimeout(() => inputEl.style.transform = "translateX(0)", 150);
+            }
+        }
+    }
+
+    function updateHistoryBox() {
+        const box = document.getElementById('wordHistoryBox');
+        if(usedWords.size === 0) {
+            box.innerHTML = `<span style="color:#bdc1c6; font-style:italic;">Belum ada kata...</span>`;
+        } else {
+            box.innerHTML = Array.from(usedWords).map(w => `<span class="history-word">${w.toUpperCase()}</span>`).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+    }
+
+    function showFeedback(msg) {
+        const fb = document.getElementById('feedback');
+        fb.innerText = msg;
+        fb.style.color = "var(--google-red)";
+        setTimeout(() => fb.innerText = "", 1500);
+    }
+
+    function eliminate() {
+        clearInterval(timer); 
+        
+        const loserName = activePlayers[currentIndex].name;
+        activePlayers.splice(currentIndex, 1); 
+
+        document.querySelector('.card').style.background = "transparent";
+        document.querySelector('.card').style.backdropFilter = "none";
+        document.querySelector('.card').style.border = "none";
+        document.querySelector('.card').style.boxShadow = "none";
+
+        document.getElementById('gameplay').style.display = 'none';
+        document.getElementById('eliminationScreen').style.display = 'block';
+        document.getElementById('eliminatedPlayerName').innerText = loserName;
+        
+        document.documentElement.style.setProperty('--bg-color', '#111'); 
+
+        setTimeout(() => {
+            document.getElementById('eliminationScreen').style.display = 'none';
+            
+            document.querySelector('.card').style.background = "rgba(255, 255, 255, 0.85)";
+            document.querySelector('.card').style.backdropFilter = "blur(25px)";
+            document.querySelector('.card').style.border = "1px solid rgba(255, 255, 255, 0.6)";
+            document.querySelector('.card').style.boxShadow = "0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,0.8)";
+
+            if(activePlayers.length <= 1) {
+                showWinner();
+            } else {
+                document.getElementById('gameplay').style.display = 'block';
+                if(currentIndex >= activePlayers.length) currentIndex = 0;
+                
+                turnCount = 0; 
+                newChallenge(); 
+            }
+        }, 3000);
+    }
+
+    function showWinner() {
+        document.documentElement.style.setProperty('--bg-color', '#f8f9fa');
+        document.getElementById('gameplay').style.display = 'block'; 
+        document.getElementById('gameplay').innerHTML = `
+            <p style="color:var(--google-blue); font-size:1.2em; font-weight:800; letter-spacing:4px; margin-bottom:0;">🏆 PEMENANG 🏆</p>
+            <h1 style="font-size:4.5em; margin: 10px 0 30px 0; color: var(--google-green); text-shadow: 0 10px 20px rgba(52, 168, 83, 0.2);">${activePlayers[0].name}</h1>
+            <p style="font-weight:600; color:var(--text-muted); margin-bottom: 20px;">Bertahan sampai Ronde ${currentRound}</p>
+            <button class="btn start-btn" onclick="location.reload()" style="width:70%;">MAIN LAGI</button>
+        `;
+    }
+</script>
+</body>
+</html>
