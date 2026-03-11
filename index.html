@@ -2,6 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <title>Ujung Pangkal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
@@ -24,6 +26,7 @@
             transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
             overflow: hidden;
+            touch-action: none; 
         }
 
         .card { 
@@ -36,7 +39,11 @@
                         0 1px 3px rgba(0,0,0,0.05),
                         inset 0 2px 0 rgba(255,255,255,0.8);
             text-align: center;
+            max-height: 95vh;
+            overflow-y: auto; 
         }
+        
+        .card::-webkit-scrollbar { display: none; }
 
         h1 { font-weight: 900; letter-spacing: 2px; margin-top: 0; font-size: 2.3em; margin-bottom: 20px;}
         h1 span { display: inline-block; animation: wave 1.5s ease-in-out infinite; }
@@ -178,6 +185,38 @@
         .elimination-sub { margin-top: 25px; color: #9aa0a6; font-size: 1.1em; font-weight: 600; letter-spacing: 2px; animation: blink 1.5s infinite; }
         
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+
+        @media screen and (max-width: 480px) {
+            .card {
+                padding: 30px 20px; 
+                border-radius: 24px;
+                width: 95%; 
+            }
+
+            h1 { font-size: 1.8em; margin-bottom: 15px; } 
+            
+            p { font-size: 0.8em; margin-bottom: 8px; }
+
+            .mode-btn { width: 48%; padding: 12px 10px; font-size: 0.85em; }
+            .num-btn { width: 30%; padding: 10px; font-size: 0.8em; margin: 2px; }
+            
+            .info-btn { width: 100%; font-size: 0.85em; padding: 10px; }
+            .start-btn { width: 100%; font-size: 1.1em; padding: 14px; }
+
+            input { width: 90%; font-size: 1.2em; padding: 14px 15px; }
+
+            .current-player-name { font-size: 2.2em; }
+            .timer { font-size: 4em; }
+            .display-box { font-size: 3.5em; margin: 0 0 10px 0; }
+            
+            #infoBox { font-size: 0.8em; padding: 15px; }
+            #suddenDeathAlert { font-size: 0.8em; }
+            
+            .elimination-title { font-size: 2.5em; }
+            .elimination-name { font-size: 2em; }
+            .elimination-sub { font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
@@ -190,14 +229,14 @@
             <span>P</span><span>A</span><span>N</span><span>G</span><span>K</span><span>A</span><span>L</span>
         </h1>
         
-        <p style="margin-top: 20px;">MODE PERMAINAN</p>
+        <p style="margin-top: 15px;">MODE PERMAINAN</p>
         <button class="btn mode-btn active" id="btnAwalan" onclick="setMode('AWALAN')">AWALAN</button>
         <button class="btn mode-btn" id="btnAkhiran" onclick="setMode('AKHIRAN')">AKHIRAN</button>
         
-        <p style="margin-top: 25px;">JUMLAH PEMAIN</p>
-        <button class="btn num-btn" id="btnNum2" onclick="prepareNames(2)">2 Orang</button>
-        <button class="btn num-btn" id="btnNum3" onclick="prepareNames(3)">3 Orang</button>
-        <button class="btn num-btn" id="btnNum4" onclick="prepareNames(4)">4 Orang</button>
+        <p style="margin-top: 20px;">JUMLAH PEMAIN</p>
+        <button class="btn num-btn" id="btnNum2" onclick="prepareNames(2)">2 ORG</button>
+        <button class="btn num-btn" id="btnNum3" onclick="prepareNames(3)">3 ORG</button>
+        <button class="btn num-btn" id="btnNum4" onclick="prepareNames(4)">4 ORG</button>
 
         <button class="btn info-btn" onclick="toggleInfo()">BAGAIMANA CARA MAINNYA?</button>
         <div id="infoBox">
@@ -209,7 +248,7 @@
             </ul>
         </div>
 
-        <div id="nameFields" style="display:none; margin-top: 30px;">
+        <div id="nameFields" style="display:none; margin-top: 20px;">
             <div id="inputContainer"></div>
             <button class="btn start-btn" id="mainStartBtn" onclick="startGame()" disabled>MEMUAT KAMUS...</button>
         </div>
@@ -366,7 +405,6 @@
         currentRound = Math.floor(turnCount / activePlayers.length) + 1;
         document.getElementById('roundDisplay').innerText = `RONDE ${currentRound}`;
         
-        // DI SINI PERUBAHANNYA: Dibagi 3, bukan 5
         let timePenalty = Math.floor((currentRound - 1) / 3);
         let calculatedTime = 10 - timePenalty;
         baseTime = calculatedTime < 3 ? 3 : calculatedTime;
@@ -403,6 +441,7 @@
     }
 
     function handleInput(e) {
+        // Otomatis tekan enter jika di HP menggunakan keyboard virtual (tombol submit/go)
         if(e.key === 'Enter') {
             let val = e.target.value.trim().toLowerCase();
             if(!val) return;
@@ -494,12 +533,11 @@
         document.getElementById('gameplay').style.display = 'block'; 
         document.getElementById('gameplay').innerHTML = `
             <p style="color:var(--google-blue); font-size:1.2em; font-weight:800; letter-spacing:4px; margin-bottom:0;">🏆 PEMENANG 🏆</p>
-            <h1 style="font-size:4.5em; margin: 10px 0 30px 0; color: var(--google-green); text-shadow: 0 10px 20px rgba(52, 168, 83, 0.2);">${activePlayers[0].name}</h1>
+            <h1 style="font-size:3.5em; margin: 10px 0 30px 0; color: var(--google-green); text-shadow: 0 10px 20px rgba(52, 168, 83, 0.2);">${activePlayers[0].name}</h1>
             <p style="font-weight:600; color:var(--text-muted); margin-bottom: 20px;">Bertahan sampai Ronde ${currentRound}</p>
             <button class="btn start-btn" onclick="location.reload()" style="width:70%;">MAIN LAGI</button>
         `;
     }
 </script>
 </body>
-
 </html>
